@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodApp.RegisterPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <ImageButton Source="backarrow.png"
+            BackgroundColor="Transparent"
+            WidthRequest="30"
+            HeightRequest="30"
+            HorizontalOptions="End"
+            Margin="0,30,30,0"
+            Clicked="GoBackToMain"
+           >
+            </ImageButton>
+            <Label Text="Email" FontSize="30" HorizontalTextAlignment="Center" TextColor="Black" Margin="0,90,0,0"/>
+            <Entry x:Name="txtLogin" Placeholder="" FontSize="26" Margin="45,0,45,0" />
+
+            <Label Text="Nazwa użytkownika" FontSize="30" HorizontalTextAlignment="Center" TextColor="Black" Margin="0,0,0,0"/>
+            <Entry x:Name="txtUserName" Placeholder="" FontSize="26" Margin="45,0,45,0" />
+
+            <Label Text="Hasło" FontSize="30" HorizontalTextAlignment="Center" TextColor="Black"/>
+            <Entry x:Name="txtPassword" Placeholder=""  IsPassword="true" FontSize="26" Margin="45,0,45,0" />
+
+            <Button Text="Zarejestruj" Clicked="RegisterAccount_Clicked" Margin="25,5,25,5" FontSize="22" />
+            <Label x:Name="lblError" Text="" FontSize="20" HorizontalTextAlignment="Center" TextColor="Red" Margin="10,10,0,0"/>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

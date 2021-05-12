@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodApp.MainPage">
+
+    <StackLayout>
+        <Frame BackgroundColor="#2196F3" Padding="24" CornerRadius="0">
+            <Label  Text="Witaj w FoodBook!" HorizontalTextAlignment="Center" TextColor="White" FontSize="36"/>
+        </Frame>
+        <Label x:Name="lblError" Text="" FontSize="20" HorizontalTextAlignment="Center" TextColor="Red" Margin="10,10,0,0"/>
+
+        <Label Text="Email" FontSize="32" HorizontalTextAlignment="Center" TextColor="Black" Margin="0,0,0,0"/>
+        <Entry x:Name="txtLogin" Placeholder="" FontSize="26" Margin="45,0,45,0" />
+
+        <Label Text="Hasło" FontSize="32" HorizontalTextAlignment="Center" TextColor="Black"/>
+        <Entry x:Name="txtPassword" Placeholder=""  IsPassword="true" FontSize="26" Margin="45,0,45,0" />
+        
+        <Button Text="Zaloguj się" Clicked="Login_Clicked" Margin="25,5,25,5" FontSize="22" />
+
+
+        <Button Text="Zarejestruj się" Clicked="Register_Clicked" Margin="65,5,65,5" />
+
+        <Button Text="Resetuj hasło" Clicked="ResetPassword_Clicked" Margin="65,5,65,5" />
+
+    </StackLayout>
+
+</ContentPage>

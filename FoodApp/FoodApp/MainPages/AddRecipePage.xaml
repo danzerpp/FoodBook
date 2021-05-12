@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             x:Class="FoodApp.MainPages.AddRecipePage">
+    <StackLayout>
+        <Label FontSize="20" Text="Nazwa" Margin="10,0,0,0"></Label>
+        <Entry Placeholder="" Margin="10,0,0,0" x:Name="txtName"/>
+        <Label FontSize="20" Text="Opisz, jak przygotować obiad" Margin="10,0,0,0"></Label>
+
+        <Frame HeightRequest="70">
+            <Editor AutoSize="TextChanges" x:Name="txtDescription"/>
+        </Frame>
+
+        <Frame MinimumHeightRequest="120">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="60"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="1" Grid.Column="1" FontSize="20" Text="Składnik" Margin="0,0,0,0"></Label>
+                <Entry Grid.Row="2"  Grid.Column="1" Placeholder="" Margin="0,0,0,0" x:Name="txtProduct"/>
+
+                <Label Grid.Row="1" Grid.Column="2" FontSize="20" Text="Ilość" Margin="0,0,0,0"></Label>
+                <Entry TextChanged="OnTextChanged" Grid.Row="2" Grid.Column="2" Placeholder="" Margin="0,0,0,0" x:Name="txtQuantity"/>
+
+                <Label Grid.Row="1" Grid.Column="3" FontSize="20" Text="Miara" Margin="0,0,0,0"></Label>
+                <Entry TextChanged="OnUnitTextChanged" Grid.Row="2" Grid.Column="3" Placeholder="" Margin="0,0,0,0" x:Name="txtUnit"/>
+                <ImageButton Grid.Row="2" Grid.Column="4" BackgroundColor="Transparent" Source="add.png" Clicked="Button_Clicked"></ImageButton>
+            </Grid>
+        </Frame>
+        <Label FontSize="20" Text="Dodane" Margin="10,0,0,0"></Label>
+
+        <Frame>
+            <ListView x:Name="ingredients">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell >
+                            <StackLayout >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0"></RowDefinition>
+                                        <RowDefinition Height="30"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="130"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="70"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Row="1" Grid.Column="1" FontSize="16" Text="{Binding Name}"/>
+                                    <Label Grid.Row="1" Grid.Column="2" FontSize="16" Text="{Binding Quantity}"/>
+                                    <Label Grid.Row="1" Grid.Column="3" FontSize="16" Text="{Binding Unit}"/>
+                                    <ImageButton ClassId="{Binding Name}"  Grid.Row="1" Grid.Column="4" Clicked="Delete"  BackgroundColor="Transparent" Source="delete.png" ></ImageButton>
+                                </Grid>
+
+
+                            </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Text="test"></MenuItem>
+                            </ViewCell.ContextActions>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Frame>
+        <Button  Text="Kontynuuj" Clicked="Button_Clicked_1"></Button>
+
+    </StackLayout>
+
+    
+</ContentPage>
