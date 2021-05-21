@@ -150,11 +150,26 @@ namespace FoodApi.Database
         }
 
 
-        public void SetNewPassword(SqlConnection sqlConnection,string login, string password)
+        public bool SetNewPassword(SqlConnection sqlConnection,string login, string password, string oldPassword)
         {
-            string queryToUpdate = "Update UserLogin Set Password='" + password + "' where Login ='" + login + "'";
+            string queryToCheck = "Select * From UserLogin where Login = '" + login +"' AND password = '" + oldPassword + "'";
+            using (SqlCommand cmd = new SqlCommand(queryToCheck, sqlConnection))
+            {
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (!reader.HasRows)
+                    {
+                        return false;
+                    }
+                  
+                }
+            }
+
+
+            string queryToUpdate = "Update UserLogin Set Password='" +  password + "' where Login ='" + login + "'";
             SqlCommand command = new SqlCommand(queryToUpdate, sqlConnection);
             command.ExecuteNonQuery();
+            return true;
         }
         public string ResetPassword(SqlConnection sqlConnection, string login)
         {

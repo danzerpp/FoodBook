@@ -21,5 +21,72 @@ namespace FoodApi.Controllers
             _uow.AddRecipeToDatabase(recipe);
             return "Done";
         }
+
+        [HttpGet]
+        [Route("GetUserRecipes")]
+        public string GetRecipes(int userOid)
+        {
+
+            UnitOfWork _uow = new UnitOfWork();
+            List<Recipe> recipes = _uow.GetUserRecipes(userOid);
+            string jsonString = JsonSerializer.Serialize(recipes);
+            return jsonString;
+        }
+
+        [HttpDelete]
+        [Route("DeleteRecipe")]
+        public void DeleteRecipe(int recipeOid)
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            _uow.DeleteRecipe(recipeOid);
+        }
+
+        [HttpGet]
+        [Route("GetRecipe")]
+        public string GetRecipe(int recipeOid)
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            return _uow.GetRecipe(recipeOid);
+        }
+
+        [HttpPost]
+        [Route("EditRecipe")]
+        public void EditRecipe(Recipe recipe)
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            _uow.EditRecipe(recipe);
+        }
+
+        [HttpGet] 
+        [Route("CheckRecipeSelected")]
+        public int CheckForRecipe(string date,int userOid)
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            return _uow.CheckForRecipe(date, userOid);
+        }
+
+        [HttpGet]
+        [Route("HasRecipeNote")]
+        public bool CheckNote(int recipeOid, int userOid)
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            return _uow.CheckNote(recipeOid, userOid);
+        }
+
+        [HttpGet]
+        [Route("DoNote")]
+        public void NewNote(int recipeOid, int userOid, bool isLiked)
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            _uow.NewNote(recipeOid, userOid, isLiked);
+        }
+
+        [HttpGet]
+        [Route("GetTopGetTopRecipes")]
+        public List<Recipe>  GetBestRecipes()
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            return _uow.GetTopRecipes();
+        }
     }
 }

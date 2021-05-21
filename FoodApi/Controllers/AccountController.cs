@@ -75,10 +75,10 @@ namespace FoodApi.Controllers
 
         [HttpGet]
         [Route("SetNewUserPassword")]
-        public void SetNewPassword(string login, string password)
+        public string SetNewPassword(string login, string password, string oldPassword)
         {
             UnitOfWork _uow = new UnitOfWork();
-            _uow.SetNewPassword(login,password);
+            return  _uow.SetNewPassword(login, Base64Decode(password), Base64Decode(oldPassword)) ? "Hasło zostało zmienione!" : "Podano błędne stare hasło!";
         }
 
         public static string Base64Decode(string base64EncodedData)

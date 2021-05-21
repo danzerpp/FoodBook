@@ -29,7 +29,7 @@ namespace FoodApi.Controllers
         public string Get()
         {
             UnitOfWork _uow = new UnitOfWork();
-            _uow.GetRecipe(1);
+            _uow.GetTopRecipes();
             return "string";
         }
 

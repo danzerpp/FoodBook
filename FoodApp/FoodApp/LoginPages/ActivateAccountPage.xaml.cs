@@ -32,12 +32,12 @@ namespace FoodApp.LoginPages
             else
             {
                 var client = new HttpClient();
-                string uri = ((App)Parent).restApiUrl + "account/ActivateAccount?login=" + ((App)Parent).userName + "&code=" + txtCode.Text;
+                string uri = ((App)Parent).restApiUrl + "account/ActivateAccount?login=" + ((App)Parent).login + "&code=" + txtCode.Text;
                 var result = await client.GetStringAsync(uri);
                 if (result =="Done")
                 {
                     
-                    ((App)Parent).MainPage = new NavigationPage(new MainUserPage());
+                    ((App)Parent).MainPage = new NavigationPage(new MainUserPage(((App)Parent)));
                 }
                 else
                 {
@@ -52,7 +52,7 @@ namespace FoodApp.LoginPages
         async void SendAgain_Clicked(object sender, System.EventArgs e)
         {
             var client = new HttpClient();
-            string uri = ((App)Parent).restApiUrl + "account/SendCodeAgain?login=" + ((App)Parent).userName;
+            string uri = ((App)Parent).restApiUrl + "account/SendCodeAgain?login=" + ((App)Parent).login;
             var result = await client.GetStringAsync(uri);
             lblError.Text = "Kod został wysłany ponownie na podany maila";
             lblError.TextColor = Color.Green;

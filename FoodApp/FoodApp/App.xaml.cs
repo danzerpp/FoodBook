@@ -9,7 +9,7 @@ namespace FoodApp
     public partial class App : Application
     {
         public string restApiUrl = "http://192.168.1.100:45455/";
-        public string userName = "";
+        public string userName = "Domino123";
         public int userOid = 8;
         public string login = "krakers13@o2.pl";
         public App()
@@ -17,7 +17,7 @@ namespace FoodApp
             InitializeComponent();
 
             //MainPage = new MainPage();
-           MainPage = new NavigationPage(new MainUserPage());
+            MainPage = new NavigationPage(new MainUserPage(this));
 
         }
 

@@ -51,9 +51,9 @@
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition Width="70"/>
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Row="1" Grid.Column="1" FontSize="16" Text="{Binding Name}"/>
-                                    <Label Grid.Row="1" Grid.Column="2" FontSize="16" Text="{Binding Quantity}"/>
-                                    <Label Grid.Row="1" Grid.Column="3" FontSize="16" Text="{Binding Unit}"/>
+                                    <Label TextColor="Black" Grid.Row="1" Grid.Column="1" FontSize="16" Text="{Binding Name}"/>
+                                    <Label TextColor="Black" Grid.Row="1" Grid.Column="2" FontSize="16" Text="{Binding Quantity}"/>
+                                    <Label TextColor="Black" Grid.Row="1" Grid.Column="3" FontSize="16" Text="{Binding Unit}"/>
                                     <ImageButton ClassId="{Binding Name}"  Grid.Row="1" Grid.Column="4" Clicked="Delete"  BackgroundColor="Transparent" Source="delete.png" ></ImageButton>
                                 </Grid>
 

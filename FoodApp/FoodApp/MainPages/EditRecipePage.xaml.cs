@@ -1,30 +1,66 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Text.Json;
-using System.Net.Http;
 
 namespace FoodApp.MainPages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddRecipePage : ContentPage
+    public partial class EditRecipePage : ContentPage
     {
-
         ObservableCollection<Ingredient> _ingredientList = new ObservableCollection<Ingredient>();
-
-        public AddRecipePage()
+        List<Ingredient> _removedIngredients = new List<Ingredient>();
+        Recipe _recipe;
+        App _app;
+        public EditRecipePage(App app,Recipe recipe)
         {
-
             InitializeComponent();
-          
-            
+            _recipe = recipe;
+            _app = app;
+            RefreshPageValues();
+        }
+
+        void RefreshPageValues()
+        {
+            txtName.Text = _recipe.Name;
+            txtDescription.Text = _recipe.Description;
+            foreach (var item in _recipe.Ingredients)
+            {
+                _ingredientList.Add(item);
+            }
+            ingredients.ItemsSource = _ingredientList;
+        }
+
+        async void EditImage(object sender, EventArgs e)
+        {
+            if (_ingredientList.Count > 0 && !string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtDescription.Text))
+            {
+                var ingredients = new List<Ingredient>();
+                ingredients.AddRange(_ingredientList.ToList());
+                foreach (var item in ingredients)
+                {
+                    if (item.Oid >0)
+                    {
+                        item.Oid = 0;
+                    }
+                }   
+                ingredients.AddRange(_removedIngredients.ToList());
+                Recipe recipe = new Recipe()
+                {
+                    Oid = _recipe.Oid,
+                    Name = txtName.Text,
+                    Description = txtDescription.Text,
+                    Ingredients = ingredients,
+                    ImageBase64 = _recipe.ImageBase64
+                };
+               await Navigation.PushAsync(new EditImagePage(_app, recipe));
+            }
+
 
         }
 
@@ -35,7 +71,7 @@ namespace FoodApp.MainPages
                 txtProduct.Text = String.Empty;
                 txtProduct.Placeholder = "Składnik juz istnieje!";
             }
-            else  if ( string.IsNullOrEmpty(txtProduct.Text))
+            else if (string.IsNullOrEmpty(txtProduct.Text))
             {
                 txtProduct.Text = String.Empty;
                 txtProduct.Placeholder = "Podaj nazwę!";
@@ -54,10 +90,11 @@ namespace FoodApp.MainPages
             {
                 _ingredientList.Add(new Ingredient()
                 {
+                    Oid = -1,
                     Name = txtProduct.Text,
                     Quantity = txtQuantity.Text,
                     Unit = txtUnit.Text
-                });
+                }); ;
                 txtUnit.Text = String.Empty;
                 txtQuantity.Text = String.Empty;
                 txtProduct.Text = String.Empty;
@@ -75,10 +112,11 @@ namespace FoodApp.MainPages
             var SenderButton = (ImageButton)Sender;
             var className = SenderButton.ClassId;
             var ingredient = _ingredientList.Where(i => i.Name == className).First();
+                _removedIngredients.Add(ingredient);
             _ingredientList.Remove(ingredient);
             ingredients.ItemsSource = _ingredientList;
         }
-        
+
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             //lets the Entry be empty
@@ -92,31 +130,10 @@ namespace FoodApp.MainPages
 
         private void OnUnitTextChanged(object sender, TextChangedEventArgs e)
         {
-            if (e.NewTextValue.Length >6)
+            if (e.NewTextValue.Length > 6)
             {
                 ((Entry)sender).Text = e.OldTextValue;
 
-            }
-        }
-
-
-
-        async private void Button_Clicked_1(object sender, EventArgs e)
-        {
-            if (_ingredientList.Count > 0 && !string.IsNullOrEmpty(txtName.Text) && !string.IsNullOrEmpty(txtDescription.Text))
-            {
-                Recipe recipe = new Recipe()
-                {
-                    UserOid = ((App)((NavigationPage)Parent).Parent).userOid,
-                    Name = txtName.Text,
-                    Description = txtDescription.Text,
-                    Ingredients = _ingredientList.ToList()
-                };
-                await Navigation.PushAsync(new AddRecipeImage(recipe));
-            }
-            else
-            {
-                await DisplayAlert("Uwaga!", "Proszę podać nazwę, opis i składniki  przepisu!","OK");
             }
         }
     }

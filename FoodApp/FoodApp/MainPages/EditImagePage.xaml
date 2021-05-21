@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodApp.MainPages.EditImagePage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Wybierz zdjęcie dotyczące przepisu!" FontSize="22" TextColor="Black"
+            />
+
+            <Frame MinimumHeightRequest="160" HeightRequest="260">
+                <Image x:Name="selectedImage"  />
+            </Frame>
+
+            <Button  Text="Wybierz zdjęcie" Clicked="UploadImage"></Button>
+
+            <Button  Text="Usuń zdjęcie" Clicked="DeleteImage"></Button>
+
+            <Button  Text="Edytuj przepis" Clicked="AddRecipe"></Button>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

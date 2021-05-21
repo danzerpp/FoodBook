@@ -1,7 +1,7 @@
 ﻿using Plugin.Media;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -14,19 +14,25 @@ using Xamarin.Forms.Xaml;
 namespace FoodApp.MainPages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddRecipeImage : ContentPage
+    public partial class EditImagePage : ContentPage
     {
         Recipe _recipe;
+        App _app;
         byte[] imageArray;
-        public AddRecipeImage(Recipe recipe)
+        public EditImagePage(App app, Recipe recipe)
         {
             _recipe = recipe;
+            _app = app;
             InitializeComponent();
+            imageArray = Convert.FromBase64String(_recipe.ImageBase64);
+            var stream = new MemoryStream(imageArray);
+            selectedImage.Source = ImageSource.FromStream(() => stream);
+
         }
 
-       async void UploadImage(object sender, System.EventArgs e)
+        async void UploadImage(object sender, System.EventArgs e)
         {
-           await  CrossMedia.Current.Initialize();
+            await CrossMedia.Current.Initialize();
 
             if (!CrossMedia.Current.IsPickPhotoSupported)
             {
@@ -45,7 +51,7 @@ namespace FoodApp.MainPages
                     imageArray = System.IO.File.ReadAllBytes(file.Path);
                     selectedImage.Source = ImageSource.FromFile(file.Path);
                 }
-                
+
             }
         }
 
@@ -65,16 +71,19 @@ namespace FoodApp.MainPages
             {
                 _recipe.ImageBase64 = Convert.ToBase64String(imageArray);
                 string jsonString = JsonSerializer.Serialize(_recipe);
+              
                 var data = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-
-
-                string uri = ((App)((NavigationPage)Parent).Parent).restApiUrl + "user/AddNewRecipe";
+                string uri = _app.restApiUrl + "user/EditRecipe";
                 var client = new HttpClient();
                 var response = await client.PostAsync(uri, data);
                 var result = response.Content.ReadAsStringAsync().Result;
 
-                ((App)((NavigationPage)Parent).Parent).MainPage = new NavigationPage(new MainUserPage(((App)((NavigationPage)Parent).Parent)));
+                Navigation.RemovePage(Navigation.NavigationStack[2]);
+                await Navigation.PopAsync();
+
+                
+
             }
             else
             {

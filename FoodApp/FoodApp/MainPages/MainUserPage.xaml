@@ -1,21 +1,109 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FoodApp.MainPages.MainUserPage">
+             x:Class="FoodApp.MainPages.MainUserPage" Appearing="PageAppears">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <ImageButton x:Name="noteImage" Grid.Row="1" Grid.Column="0" BackgroundColor="Transparent" Source="note.png" Clicked="DoNote"></ImageButton>
+                <ImageButton Grid.Row="1" Grid.Column="1" BackgroundColor="Transparent" Source="leftarrow.png" Clicked="GoLeft"></ImageButton>
+                <Label x:Name="txtDate" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="bold" TextColor="Black" FontSize="16" Text="" Grid.Row="1" Grid.Column="2"></Label>
+                <ImageButton Grid.Row="1" Grid.Column="3" BackgroundColor="Transparent" Source="rightarrow.png" Clicked="GoRight"></ImageButton>
+              
+                <ImageButton Grid.Row="1" Grid.Column="4" BackgroundColor="Transparent" Source="lottery.png" Clicked="DoLottery" ></ImageButton>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0"/>
+                    <ColumnDefinition Width="170"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="170"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="1" Grid.Column="1">
+                    <Image x:Name="recipeImage" ></Image>
+                </StackLayout>
+                <StackLayout Grid.Row="1" Grid.Column="2">
+                    <Label x:Name="txtRecipeName" TextColor="black" FontAttributes="Bold" FontSize="20" Text="" Margin="0,0,0,10"></Label>
+
+                    <Label FontSize="18" TextColor="black" FontAttributes="Bold" Text="Nazwa Użytkownika:"></Label>
+                    <Label x:Name="txtUserName" FontSize="18" TextColor="black" Text=""></Label>
+                </StackLayout>
+
+                
+            </Grid>
+            <Label FontAttributes="Bold" Text="Opis przygotowania potrawy" FontSize="18" TextColor="black" Margin="10,0,0,0"></Label>
+            <Frame HeightRequest="80" >
+                <Editor x:Name="txtDescription" IsReadOnly="True" FontSize="18" TextColor="black" Text=""></Editor>
+            </Frame>
+            
+            <Label FontAttributes="Bold" Text="Składniki" FontSize="18" TextColor="black" Margin="10,0,0,0"></Label>
+
+            <Frame HeightRequest="80">
+                <ListView x:Name="ingredients">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell >
+                                <StackLayout >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="0"></RowDefinition>
+                                            <RowDefinition Height="30"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="80"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label TextColor="Black" Grid.Row="1" Grid.Column="1" FontSize="16" Text="{Binding Name}"/>
+                                        <Label TextColor="Black" Grid.Row="1" Grid.Column="2" FontSize="16" Text="{Binding Quantity}"/>
+                                        <Label TextColor="Black" Grid.Row="1" Grid.Column="3" FontSize="16" Text="{Binding Unit}"/>
+                                    </Grid>
+
+
+                                </StackLayout>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="test"></MenuItem>
+                                </ViewCell.ContextActions>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="txtLike" Margin="10,0,0,0" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="bold" TextColor="Green" FontSize="16" Text="123" Grid.Row="1" Grid.Column="0"></Label>
+                <ImageButton Grid.Row="1" Grid.Column="1" BackgroundColor="Transparent" Source="like.png" ></ImageButton>
+                <Label x:Name="txtUnLike" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="bold" TextColor="Red" FontSize="16" Text="-23" Grid.Row="1" Grid.Column="3"></Label>
+                <ImageButton Grid.Row="1" Grid.Column="4" BackgroundColor="Transparent" Source="unlike.png" ></ImageButton>
+
+            </Grid>
         </StackLayout>
 
 
     </ContentPage.Content>
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Wyloguj się" Priority="0" Order="Secondary" Clicked="ToolbarItem_Clicked" />
-        <ToolbarItem Text="add" Priority="0" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="add.png" />
-        <ToolbarItem Text="edit" Priority="1" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="edit.png"/>
-        <ToolbarItem Text="dinner" Priority="2" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="dinner.png"/>
+        <ToolbarItem Text="Zmień hasło" Priority="0" Order="Secondary" Clicked="ToolbarItem_Clicked" />
+        <ToolbarItem Text="Wyloguj się" Priority="1" Order="Secondary" Clicked="ToolbarItem_Clicked" />
+        <ToolbarItem x:Name="txtUser" Text="add" Priority="0" Order="Primary"/>
+        <ToolbarItem Text="add" Priority="1" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="add.png" />
+        <ToolbarItem Text="edit" Priority="2" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="edit.png"/>
         <ToolbarItem Text="recipes" Priority="3" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="recipes.png"/>
     </ContentPage.ToolbarItems>
 

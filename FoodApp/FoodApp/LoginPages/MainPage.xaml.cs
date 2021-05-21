@@ -51,7 +51,7 @@ namespace FoodApp
                     lblError.Text = result;
 
                 }
-                else if (result == "False")
+                else if (split[0] == "False")
                 {
                     ((App)Parent).login = txtLogin.Text;
                     ((App)Parent).userName = split[2];
@@ -64,7 +64,7 @@ namespace FoodApp
                     ((App)Parent).login = txtLogin.Text;
                     ((App)Parent).userName = split[2];
                     ((App)Parent).userOid = int.Parse(split[1]);
-                    ((App)Parent).MainPage = new NavigationPage(new MainUserPage());
+                    ((App)Parent).MainPage = new NavigationPage(new MainUserPage(((App)Parent)));
 
                 }
             }
