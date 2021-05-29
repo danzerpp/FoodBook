@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FoodApp.MainPages.TopRecipesPage" Appearing="PageAppears">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame>
+                <ListView x:Name="recipesList" RowHeight="130">
+                    <ListView.ItemTemplate >
+                        <DataTemplate>
+                            <ViewCell  >
+                                <StackLayout MinimumHeightRequest="130" BackgroundColor="{Binding BackColor}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0"/>
+                                            <ColumnDefinition Width="30"/>
+                                            <ColumnDefinition Width="80"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label  VerticalTextAlignment="Center" TextColor="Black" Grid.Row="1" Grid.Column="1" FontSize="18" HorizontalTextAlignment="Center" Text="{Binding Place}"/>
+                                        <StackLayout Grid.Row="1" Grid.Column="2" VerticalOptions="Center">
+                                            <Image HeightRequest="80" WidthRequest="80"  Source="{Binding Image}" BackgroundColor="Transparent"/>
+                                        </StackLayout>
+                                        <Label VerticalTextAlignment="Center" TextColor="Black" Grid.Row="1" Grid.Column="3" FontSize="18" HorizontalTextAlignment="Center" Text="{Binding Name}"/>
+                                        <StackLayout Grid.Row="1" Grid.Column="4" VerticalOptions="Center">
+                                            <ImageButton ClassId="{Binding RecipeOid}"  Clicked="Show"  HeightRequest="30"  WidthRequest="30"  BackgroundColor="Transparent" Source="show.png" ></ImageButton>
+                                        </StackLayout>
+
+                                 
+
+                                    </Grid>
+
+
+                                </StackLayout>
+                                <ViewCell.ContextActions>
+                                    <MenuItem Text="test"></MenuItem>
+                                </ViewCell.ContextActions>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -19,7 +19,7 @@ namespace FoodApp.LoginPages
         }
         void GoBackToMain(object sender, System.EventArgs e)
         {
-            ((App)Parent).MainPage = new MainPage();
+            ((App)Parent).MainPage = new MainPage(((App)Parent));
         }
         async void Reset_Clicked(object sender, System.EventArgs e)
         {
@@ -35,7 +35,7 @@ namespace FoodApp.LoginPages
                 var result = await client.GetStringAsync(uri);
                 if (result == "Done")
                 {
-                    ((App)Parent).MainPage = new MainPage();
+                    ((App)Parent).MainPage = new MainPage(((App)Parent));
                 }
                 else
                 {

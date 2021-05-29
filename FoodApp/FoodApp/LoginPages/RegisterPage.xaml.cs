@@ -50,14 +50,14 @@ namespace FoodApp
                 }
                 else
                 {
-                    ((App)Parent).MainPage = new MainPage();
+                    ((App)Parent).MainPage = new MainPage(((App)Parent));
                 }
             }
             
         }
         void GoBackToMain(object sender, System.EventArgs e)
         {
-            ((App)Parent).MainPage = new MainPage();
+            ((App)Parent).MainPage = new MainPage(((App)Parent));
         }
         public static string Base64Encode(string plainText)
         {

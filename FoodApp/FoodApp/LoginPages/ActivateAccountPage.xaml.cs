@@ -1,4 +1,5 @@
 ﻿using FoodApp.MainPages;
+using PCLStorage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace FoodApp.LoginPages
         }
         void GoBackToMain(object sender, System.EventArgs e)
         {
-            ((App)Parent).MainPage = new MainPage();
+            ((App)Parent).MainPage = new MainPage(((App)Parent));
         }
         async void Activate_Clicked(object sender, System.EventArgs e)
         {
@@ -36,7 +37,13 @@ namespace FoodApp.LoginPages
                 var result = await client.GetStringAsync(uri);
                 if (result =="Done")
                 {
-                    
+                    IFolder rootFolder = FileSystem.Current.LocalStorage;
+                    IFolder folder = await rootFolder.CreateFolderAsync("Cookies",
+                        CreationCollisionOption.OpenIfExists);
+
+                    IFile file = await rootFolder.CreateFileAsync("data.txt",
+                         CreationCollisionOption.ReplaceExisting);
+                    await file.WriteAllTextAsync(((App)Parent).userName + "|" + ((App)Parent).userOid + "|" + ((App)Parent).login);
                     ((App)Parent).MainPage = new NavigationPage(new MainUserPage(((App)Parent)));
                 }
                 else

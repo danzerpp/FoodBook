@@ -81,25 +81,48 @@ namespace FoodApi.Database
 
         }
 
-        internal List<Recipe> GetTopRecipes(SqlConnection sqlConnection)
+        internal List<TopRecipe> GetTopRecipes(SqlConnection sqlConnection)
         {
-            List<Recipe> recipes = new List<Recipe>();
-
-            string query = "Select TOP 100 * From Recipe";
-
+            List<TopRecipe> topRecipes = new List<TopRecipe>();
+            string query = "SELECT TOP(100) SUM(CASE When CAST(IsLiked AS INT) =1 then 1 else -1 END) as Note,RecipeOid From Opinion group by RecipeOid order by Note desc";
+            int i = 1;
             using (SqlCommand cmd = new SqlCommand(query, sqlConnection))
             {
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var z = "";
+                        topRecipes.Add(new TopRecipe()
+                        {
+                            Place = i,
+                            Oid = int.Parse(reader["RecipeOid"].ToString()),
+                            Note = int.Parse(reader["Note"].ToString())
+                        });
+                        i++;
                     }
 
                 }
             }
 
-            return recipes;
+            foreach (var recipe in topRecipes)
+            {
+                using (SqlCommand cmd = new SqlCommand("Select r.Name, r.RecipeImage, u.UserName From Recipe r JOIN UserLogin u on r.UserOid = u.Oid Where r.Oid = " + recipe.Oid, sqlConnection))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            recipe.Name = reader["Name"].ToString();
+                            recipe.ImageBase64 = Convert.ToBase64String((byte[])reader["RecipeImage"]);
+                            recipe.Username = reader["UserName"] as string;
+                        }
+                    }
+                }
+            }
+
+            
+
+            return topRecipes;
         }
 
         internal int Lottery(SqlConnection sqlConnection, int userOid,string date)
@@ -160,7 +183,7 @@ namespace FoodApi.Database
                 }
             }
 
-            return recipeOid;
+            return newOid;
 
         }
 

@@ -7,10 +7,11 @@ namespace FoodApi
 {
     public class TopRecipe
     {
+        public int Place { get; set; }
         public int Oid { get; set; }
         public string Username { get; set; }
         public string Name { get; set; }
-        public int Likes { get; set; }
-        public int UnLikes { get; set; }
+        public int Note { get; set; }
+        public string ImageBase64 { get; set; }
     }
 }

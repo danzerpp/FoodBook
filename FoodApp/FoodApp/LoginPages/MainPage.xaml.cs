@@ -1,11 +1,15 @@
-﻿using FoodApp.LoginPages;
+﻿using Android.Content;
+using Android.Preferences;
+using FoodApp.LoginPages;
 using FoodApp.MainPages;
+using PCLStorage;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -13,9 +17,11 @@ namespace FoodApp
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(App app)
         {
+            
             InitializeComponent();
+            
         }
 
         async void Handle_Clicked(object sender, System.EventArgs e)
@@ -32,9 +38,32 @@ namespace FoodApp
             ((App)Parent).MainPage = new ResetPassword();
         }
 
+
+     
+        void Appears(object sender, System.EventArgs e)
+        {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = rootFolder.CreateFolderAsync("Cookies",
+                CreationCollisionOption.OpenIfExists).Result;
+
+            IFile file = rootFolder.CreateFileAsync("data.txt",
+                 CreationCollisionOption.OpenIfExists).Result;
+            string data = file.ReadAllTextAsync().Result;
+            if (data.Length > 3)
+            {
+                var values = data.Split('|');
+                ((App)Parent).userName = values[0];
+                ((App)Parent).userOid = int.Parse(values[1]);
+                ((App)Parent).login = values[2];
+                ((App)Parent).MainPage = new NavigationPage(new MainUserPage(((App)Parent)));
+            }
+
+        }
         async void Login_Clicked(object sender, System.EventArgs e)
         {
-            if (txtPassword.Text == null  || txtLogin.Text == null)
+
+
+            if (txtPassword.Text == null || txtLogin.Text == null)
             {
                 lblError.Text = "Podaj email i hasło";
 
@@ -51,24 +80,32 @@ namespace FoodApp
                     lblError.Text = result;
 
                 }
-                else if (split[0] == "False")
-                {
-                    ((App)Parent).login = txtLogin.Text;
-                    ((App)Parent).userName = split[2];
-                    ((App)Parent).userOid = int.Parse(split[1]);
-                    ((App)Parent).MainPage = new ActivateAccount();
-
-                }
                 else
                 {
-                    ((App)Parent).login = txtLogin.Text;
-                    ((App)Parent).userName = split[2];
                     ((App)Parent).userOid = int.Parse(split[1]);
-                    ((App)Parent).MainPage = new NavigationPage(new MainUserPage(((App)Parent)));
+                    ((App)Parent).userName = split[2];
+                    ((App)Parent).login = txtLogin.Text;
+                    if (split[0] == "False")
+                    {
+                        ((App)Parent).MainPage = new ActivateAccount();
 
+                    }
+                    else
+                    {
+                        IFolder rootFolder = FileSystem.Current.LocalStorage;
+                        IFolder folder = await rootFolder.CreateFolderAsync("Cookies",
+                            CreationCollisionOption.OpenIfExists);
+
+                        IFile file = await rootFolder.CreateFileAsync("data.txt",
+                             CreationCollisionOption.ReplaceExisting);
+                        await file.WriteAllTextAsync(split[2] + "|" + split[1] + "|" + txtLogin.Text);
+                        ((App)Parent).MainPage = new NavigationPage(new MainUserPage(((App)Parent)));
+
+                    }
                 }
+                
             }
-            
+
         }
         async Task<string> GetNewValue()
         {

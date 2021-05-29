@@ -8,7 +8,7 @@
             />
 
             <Frame MinimumHeightRequest="160" HeightRequest="260">
-                <Image x:Name="selectedImage"  />
+                <Image x:Name="selectedImage" BackgroundColor="Transparent" />
             </Frame>
 
             <Button  Text="Wybierz zdjęcie" Clicked="UploadImage"></Button>

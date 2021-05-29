@@ -1,4 +1,5 @@
 ﻿using FoodApp.LoginPages;
+using PCLStorage;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,9 +23,11 @@ namespace FoodApp.MainPages
         DateTime date = DateTime.Now;
         public MainUserPage(App app)
         {
+           
             InitializeComponent();
             _app = app;
             txtUser.Text = "Witaj " + app.userName + "!";
+            txtDate.Text = date.ToString("dd.MM.yy");
         }
         
 
@@ -62,7 +65,9 @@ namespace FoodApp.MainPages
             {
                 var client = new HttpClient();
                 string uri = _app.restApiUrl + "user/DoLottery?userOid=" + _app.userOid + "&date=" + date.ToShortDateString();
-                int oid = int.Parse(await client.GetStringAsync(uri));
+                
+                string tempOid = await client.GetStringAsync(uri);
+                int oid = int.Parse(tempOid);
                 PageAppears(null, null);
             }
         }
@@ -133,36 +138,40 @@ namespace FoodApp.MainPages
             ingredients.ItemsSource = _ingredientList;
         }
 
-        public void ToolbarItem_Clicked(object sender, System.EventArgs e)
+        async public void ToolbarItem_Clicked(object sender, System.EventArgs e)
         {
             string text = ((ToolbarItem)sender).Text;
             if (text == "Wyloguj się")
             {
+                IFolder rootFolder = FileSystem.Current.LocalStorage;
+                IFolder folder = await rootFolder.CreateFolderAsync("Cookies",
+                    CreationCollisionOption.OpenIfExists);
+
+                IFile file = await rootFolder.CreateFileAsync("data.txt",
+                     CreationCollisionOption.ReplaceExisting);
+                await file.WriteAllTextAsync("");
                 ((App)((NavigationPage)Parent).Parent).login = "";
                 ((App)((NavigationPage)Parent).Parent).userName = "";
                 ((App)((NavigationPage)Parent).Parent).userOid = 0;
-                ((App)((NavigationPage)Parent).Parent).MainPage = new MainPage();
+                ((App)((NavigationPage)Parent).Parent).MainPage = new MainPage(((App)((NavigationPage)Parent).Parent));
               
             }
             else if (text =="add")
             {
-                Navigation.PushAsync(new AddRecipePage());
+                await Navigation.PushAsync(new AddRecipePage());
             }
             else if (text == "edit")
             {
-                Navigation.PushAsync(new RecipesToEditPage(((App)((NavigationPage)Parent).Parent)));
-            }
-            else if (text == "dinner")
-            {
-                //dinner
+                await Navigation.PushAsync(new RecipesToEditPage(((App)((NavigationPage)Parent).Parent)));
             }
             else if (text == "recipes")
             {
-                //recipes
+                await Navigation.PushAsync(new TopRecipesPage(((App)((NavigationPage)Parent).Parent)));
+
             }
             else if (text == "Zmień hasło")
             {
-                Navigation.PushAsync(new ChangePasswordPage(((App)((NavigationPage)Parent).Parent)));
+                await Navigation.PushAsync(new ChangePasswordPage(((App)((NavigationPage)Parent).Parent)));
 
             }
         }

@@ -71,7 +71,7 @@ namespace FoodApi.Database
             userConnection.NewNote(sqlConnection, recipeOid, userOid, isLiked);
         }
 
-        internal List<Recipe> GetTopRecipes()
+        internal List<TopRecipe> GetTopRecipes()
         {
             UserConnection userConnection = new UserConnection();
             return userConnection.GetTopRecipes(sqlConnection);

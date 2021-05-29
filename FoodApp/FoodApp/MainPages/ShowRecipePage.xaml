@@ -1,21 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FoodApp.MainPages.MainUserPage" Appearing="PageAppears">
+             x:Class="FoodApp.MainPages.ShowRecipePage" Appearing="Appears">
     <ContentPage.Content>
         <StackLayout>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0"/>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
-                <ImageButton x:Name="noteImage" IsVisible="false" Grid.Row="1" Grid.Column="0" BackgroundColor="Transparent" Source="note.png" Clicked="DoNote"></ImageButton>
-                <ImageButton Grid.Row="1" Grid.Column="1" BackgroundColor="Transparent" Source="leftarrow.png" Clicked="GoLeft"></ImageButton>
-                <Label x:Name="txtDate" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontAttributes="bold" TextColor="Black" FontSize="16" Text="" Grid.Row="1" Grid.Column="2"></Label>
-                <ImageButton Grid.Row="1" Grid.Column="3" BackgroundColor="Transparent" Source="rightarrow.png" Clicked="GoRight"></ImageButton>
-              
-                <ImageButton Grid.Row="1" Grid.Column="4" BackgroundColor="Transparent" Source="lottery.png" Clicked="DoLottery" ></ImageButton>
-            </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0"/>
@@ -35,16 +23,16 @@
                     <Label x:Name="txtUserName" FontSize="18" TextColor="black" Text=""></Label>
                 </StackLayout>
 
-                
+
             </Grid>
             <Label FontAttributes="Bold" Text="Opis przygotowania potrawy" FontSize="18" TextColor="black" Margin="10,0,0,0"></Label>
-            <Frame HeightRequest="80" >
+            <Frame HeightRequest="100" >
                 <Editor x:Name="txtDescription" IsReadOnly="True" FontSize="18" TextColor="black" Text=""></Editor>
             </Frame>
-            
+
             <Label FontAttributes="Bold" Text="Składniki" FontSize="18" TextColor="black" Margin="10,0,0,0"></Label>
 
-            <Frame HeightRequest="80">
+            <Frame HeightRequest="100">
                 <ListView x:Name="ingredients">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -95,18 +83,5 @@
 
             </Grid>
         </StackLayout>
-
-
     </ContentPage.Content>
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Zmień hasło" Priority="0" Order="Secondary" Clicked="ToolbarItem_Clicked" />
-        <ToolbarItem Text="Wyloguj się" Priority="1" Order="Secondary" Clicked="ToolbarItem_Clicked" />
-        <ToolbarItem x:Name="txtUser" Text="add" Priority="0" Order="Primary"/>
-        <ToolbarItem Text="add" Priority="1" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="add.png" />
-        <ToolbarItem Text="edit" Priority="2" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="edit.png"/>
-        <ToolbarItem Text="recipes" Priority="3" Order="Primary" Clicked="ToolbarItem_Clicked" IconImageSource="ranking.png"/>
-    </ContentPage.ToolbarItems>
-
- 
-
 </ContentPage>

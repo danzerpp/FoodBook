@@ -82,11 +82,19 @@ namespace FoodApi.Controllers
         }
 
         [HttpGet]
-        [Route("GetTopGetTopRecipes")]
-        public List<Recipe>  GetBestRecipes()
+        [Route("DoLottery")]
+        public int Lottery(int userOid, string date)
         {
             UnitOfWork _uow = new UnitOfWork();
-            return _uow.GetTopRecipes();
+           return _uow.DoLottery( userOid, date);
+        }
+
+        [HttpGet]
+        [Route("GetTopRecipes")]
+        public string  GetBestRecipes()
+        {
+            UnitOfWork _uow = new UnitOfWork();
+            return JsonSerializer.Serialize(_uow.GetTopRecipes()) ;
         }
     }
 }
