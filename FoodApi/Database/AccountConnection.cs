@@ -46,7 +46,7 @@ namespace FoodApi.Database
 
                 var client = new SmtpClient("smtp.gmail.com", 587)
                 {
-                    Credentials = new NetworkCredential("dominik199811@gmail.com", "kinimod11"),
+                    Credentials = new NetworkCredential("dominik199811@gmail.com", "****"),
                     EnableSsl = true
                 };
                 client.Send("dominik199811@gmail.com", login, "FoodBook - Kod do aktywacji", "Kod aktywacyjny: " + activateNumber);
